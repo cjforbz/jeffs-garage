@@ -1,4 +1,5 @@
 import { useState, KeyboardEvent, ChangeEvent } from 'react';
+import axios from 'axios';
 
 const UserForm = () => {
   const [formData, setFormData] = useState({
@@ -16,14 +17,19 @@ const UserForm = () => {
     console.log(formData);
   };
 
+  const handleSubmit = async () => {
+    await axios.post('/api/createUser', formData);
+  };
+
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           name="firstName"
           placeholder="First Name"
           value={formData.firstName}
           onChange={handleChange}
+          required={true}
         />
 
         <input
@@ -31,6 +37,7 @@ const UserForm = () => {
           placeholder="Last Name"
           value={formData.lastName}
           onChange={handleChange}
+          required={true}
         />
 
         <input
@@ -38,6 +45,7 @@ const UserForm = () => {
           placeholder="First Name"
           value={formData.userName}
           onChange={handleChange}
+          required={true}
         />
 
         <input
@@ -46,7 +54,10 @@ const UserForm = () => {
           placeholder="email"
           value={formData.email}
           onChange={handleChange}
+          required={true}
         />
+
+        <button type="submit">Submit</button>
       </form>
     </div>
   );
