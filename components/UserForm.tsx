@@ -7,19 +7,32 @@ const UserForm = () => {
     lastName: '',
     userName: '',
     email: '',
+    password: '',
+  });
+
+  const [pWConfirm, setPWConfirm] = useState({
+    confirmPassword: '',
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name: string = e.target.name;
     const val: string = e.target.value;
-
-    setFormData({ ...formData, [name]: val });
-    console.log(formData);
+    if (name === 'confirmPassword') setPWConfirm({ confirmPassword: val });
+    else setFormData({ ...formData, [name]: val });
+    console.log(formData, confirmPassword);
   };
 
   const handleSubmit = async () => {
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!');
+      return null;
+    }
     await axios.post('/api/createUser', formData);
   };
+
+  const { firstName, lastName, userName, email, password } = formData;
+
+  const { confirmPassword } = pWConfirm;
 
   return (
     <div>
@@ -27,34 +40,52 @@ const UserForm = () => {
         <input
           name="firstName"
           placeholder="First Name"
-          value={formData.firstName}
+          value={firstName}
           onChange={handleChange}
-          required={true}
         />
 
         <input
           name="lastName"
           placeholder="Last Name"
-          value={formData.lastName}
+          value={lastName}
           onChange={handleChange}
-          required={true}
         />
 
         <input
           name="userName"
-          placeholder="First Name"
-          value={formData.userName}
+          placeholder="User Name"
+          value={userName}
           onChange={handleChange}
-          required={true}
+          required
         />
 
         <input
           type="email"
           name="email"
           placeholder="email"
-          value={formData.email}
+          value={email}
           onChange={handleChange}
-          required={true}
+          required
+        />
+
+        <input
+          type="password"
+          name="password"
+          pattern="(?=.*\d)(?=.*[a-z])(?=[A-Z]).{8,}"
+          placeholder="Password"
+          value={password}
+          required
+          onChange={handleChange}
+        />
+
+        <input
+          type="password"
+          name="confirmPassword"
+          pattern="(?=.*\d)(?=.*[a-z])(?=[A-Z]).{8,}"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          required
+          onChange={handleChange}
         />
 
         <button type="submit">Submit</button>

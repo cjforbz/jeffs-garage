@@ -1,6 +1,7 @@
 import prisma from '../../lib/prisma';
+import bcrypt from 'bcrypt';
 
-const createFood = async (req, res) => {
+const createUser = async (req, res) => {
   const data = req.body;
   console.log(data);
   try {
@@ -16,4 +17,4 @@ const createFood = async (req, res) => {
   }
 };
 
-export default createFood;
+export default createUser;
