@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 
 const createUser = async (req, res) => {
   const data = req.body;
+  data.password = await bcrypt.hash(data.password, 10);
   console.log(data);
   try {
     const result = await prisma.user.create({
