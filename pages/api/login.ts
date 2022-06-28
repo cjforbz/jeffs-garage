@@ -9,6 +9,7 @@ const login = async (req, res) => {
         email: `${email}`,
       },
     });
+    if (!user) throw new Error('No account was found with that email address');
     const validPass = await bcrypt.compare(password, user.password);
     console.log(validPass);
   } catch (error) {
