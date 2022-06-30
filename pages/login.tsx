@@ -15,7 +15,7 @@ const Login: NextPage = () => {
   };
 
   const handleLogin = async () => {
-    await axios.post('/api/login', loginData);
+    await axios.post('/api/auth/*', loginData);
   };
 
   const { email, password } = loginData;
