@@ -1,7 +1,6 @@
 import NextAuth from 'next-auth/next';
 import prisma from '../../../lib/prisma';
 import bcrypt from 'bcrypt';
-import axios from 'axios';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export default NextAuth({
