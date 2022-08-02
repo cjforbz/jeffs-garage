@@ -1,11 +1,14 @@
 import type { NextPage } from 'next';
 import { useState, ChangeEvent } from 'react';
 import axios from 'axios';
+import { getCsrfToken } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 const Login: NextPage = () => {
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
+    csrfToken: csrfToken,
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -15,7 +18,10 @@ const Login: NextPage = () => {
   };
 
   const handleLogin = async () => {
-    await axios.post('/api/auth/*', loginData);
+    await signIn('credentials', {
+      email: loginData.email,
+      password: loginData.password,
+    });
   };
 
   const { email, password } = loginData;
@@ -44,5 +50,13 @@ const Login: NextPage = () => {
     </div>
   );
 };
+
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      csrfToken: await getCsrfToken(context),
+    },
+  };
+}
 
 export default Login;
