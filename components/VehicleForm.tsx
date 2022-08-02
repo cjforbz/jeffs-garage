@@ -25,11 +25,16 @@ const VehicleForm = () => {
     const name = e.target.name;
     const val = e.target.value;
     setFormData({ ...formData, [name]: val });
+    console.log(formData);
   };
 
-  const handleSubmit = async () => {
-    console.log(formData);
-    await axios.post('/api/vechicle', formData);
+  const handleSubmit = () => {
+    const vehicleData = {
+      ...formData,
+      year: Number(formData.year),
+      mileage: Number(formData.mileage),
+    };
+    axios.post('/api/vehicle', vehicleData);
   };
 
   return (
