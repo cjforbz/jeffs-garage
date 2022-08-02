@@ -50,13 +50,3 @@ const MyVehicles: NextPage = () => {
 };
 
 export default MyVehicles;
-
-{
-  /* <ul>
-<li>{vehicle.make}</li>
-<li>{vehicle.model}</li>
-<li>{vehicle.year}</li>
-<li>{vehicle.mileage}</li>
-<ul />
-   */
-}

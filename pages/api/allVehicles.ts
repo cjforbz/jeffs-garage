@@ -8,6 +8,7 @@ const handler: NextApiHandler = async (
   res: NextApiResponse
 ) => {
   const session = await unstable_getServerSession(req, res, authOptions);
+  console.log(req.method);
   if (session) {
     const vehicles = await prisma.vehicle.findMany({
       where: {

@@ -2,7 +2,7 @@ import { useState, ChangeEvent, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 
-const VehicleForm = () => {
+const VehicleForm = ({ action }: { action: string }) => {
   const { data: session, status } = useSession();
   const user = session?.user;
 
@@ -16,8 +16,12 @@ const VehicleForm = () => {
   const { make, model, year, mileage } = formData;
 
   useEffect(() => {
+    console.log(action);
     if (user) {
       setFormData({ ...formData, ownerId: user.userId });
+      if (action === 'edit') {
+        setFormData(test);
+      }
     }
   }, [user]);
 
@@ -34,7 +38,11 @@ const VehicleForm = () => {
       year: Number(formData.year),
       mileage: Number(formData.mileage),
     };
-    axios.post('/api/vehicle', vehicleData);
+    if (action === 'create') {
+      axios.post('/api/vehicle', vehicleData);
+    } else if (action === 'edit') {
+      axios.put('/api/vehicle', vehicleData);
+    }
   };
 
   return (
