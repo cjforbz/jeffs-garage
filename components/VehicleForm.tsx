@@ -4,27 +4,32 @@ import axios from 'axios';
 
 const VehicleForm = () => {
   const { data: session, status } = useSession();
+  const user = session?.user;
 
   const [formData, setFormData] = useState({
     make: '',
     model: '',
     year: '',
     mileage: '',
+    ownerId: '',
   });
   const { make, model, year, mileage } = formData;
 
   useEffect(() => {
-    console.log(status);
-  });
+    if (user) {
+      setFormData({ ...formData, ownerId: user.userId });
+    }
+  }, [user]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name,
-      val = e.target.value;
+    const name = e.target.name;
+    const val = e.target.value;
     setFormData({ ...formData, [name]: val });
   };
 
-  const handleSubmit = () => {
-    console.log(session, formData);
+  const handleSubmit = async () => {
+    console.log(formData);
+    await axios.post('/api/vechicle', formData);
   };
 
   return (
