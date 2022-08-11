@@ -21,7 +21,7 @@ const MyVehicles: NextPage = () => {
   useEffect(() => {
     const getVehicles = async () => {
       if (user) {
-        const { data: allVehicles } = await axios.get('/api/allVehicles');
+        const { data: allVehicles } = await axios.get('/api/vehicles');
         if (allVehicles) {
           setVehicles(allVehicles);
           setLoading(false);

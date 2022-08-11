@@ -7,11 +7,23 @@ import axios from 'axios';
 const SingleVehicle: NextPage = () => {
   const { data: session, status } = useSession();
   const user = session?.user;
-  const [vehicle, setVehicle] = useState({});
+  const [currentVehicle, setCurrentVehicle] = useState({});
   const router = useRouter();
-  const { vehicleId } = router.query;
+  const vehicleId = parseInt(router.query?.vehicleId);
 
-  return <div>Vehicle Id : {vehicleId}</div>;
+  useEffect(() => {
+    console.log(router.query);
+    const getVehicle = async () => {
+      const vehicle = await axios.get(`/api/vehicles/${vehicleId}`);
+      if (vehicle) {
+        setCurrentVehicle(vehicle);
+      }
+    };
+    getVehicle();
+    console.log(currentVehicle);
+  });
+
+  return <div>Vehicle Id : {'vehicleId'}</div>;
 };
 
 export default SingleVehicle;

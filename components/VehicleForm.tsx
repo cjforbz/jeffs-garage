@@ -39,9 +39,9 @@ const VehicleForm = ({ action }: { action: string }) => {
       mileage: Number(formData.mileage),
     };
     if (action === 'create') {
-      axios.post('/api/vehicle', vehicleData);
+      axios.post('/api/vehicles/createVehicle', vehicleData);
     } else if (action === 'edit') {
-      axios.put('/api/vehicle', vehicleData);
+      axios.put('/api/vehicle/editVehicle', vehicleData);
     }
   };
 

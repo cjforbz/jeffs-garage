@@ -1,4 +1,4 @@
-import VehicleForm from '../components/VehicleForm';
+import VehicleForm from '../components/vehicleForm';
 import type { NextPage } from 'next';
 
 const CreateVehicle: NextPage = () => {

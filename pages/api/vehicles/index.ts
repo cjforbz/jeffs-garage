@@ -1,6 +1,6 @@
-import prisma from '../../prisma/client';
+import prisma from '../../../prisma/client';
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
-import { authOptions } from './auth/[...nextauth]';
+import { authOptions } from '../auth/[...nextauth]';
 import { unstable_getServerSession } from 'next-auth';
 
 const handler: NextApiHandler = async (
