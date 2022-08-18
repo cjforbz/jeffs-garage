@@ -14,16 +14,15 @@ const SingleVehicle: NextPage = () => {
 
   useEffect(() => {
     const getVehicle = async () => {
-      const { data } = await axios.get(`/api/vehicles/${vehicleId}`);
-      if (data) {
-        setCurrentVehicle(data);
+      const { data: vehicle } = await axios.get(`/api/vehicles/${vehicleId}`);
+      if (vehicle) {
+        setCurrentVehicle(vehicle);
         setLoading(false);
       }
     };
     if (vehicleId) {
       getVehicle();
     }
-    console.log(currentVehicle);
   }, [vehicleId, loading, user]);
 
   if (loading) {

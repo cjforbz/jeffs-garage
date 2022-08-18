@@ -3,15 +3,7 @@ import { useSession } from 'next-auth/react';
 import type { NextPage } from 'next';
 import Link from 'next/link';
 import axios from 'axios';
-
-type VehicleObj = {
-  id: number;
-  make: string;
-  model: string;
-  year: number;
-  mileage: number;
-  ownerId: string;
-};
+import type { Vehicle } from 'prisma/prisma-client';
 
 const MyVehicles: NextPage = () => {
   const { data: session, status } = useSession();
@@ -30,7 +22,7 @@ const MyVehicles: NextPage = () => {
       }
     };
     getVehicles();
-  }, [user]);
+  }, [user, loading]);
 
   if (loading) {
     return <div>loading</div>;
@@ -38,7 +30,7 @@ const MyVehicles: NextPage = () => {
 
   return (
     <div>
-      {vehicles.map((vehicle: VehicleObj, idx: number) => {
+      {vehicles.map((vehicle: Vehicle, idx: number) => {
         return (
           <Link href={`/myVehicles/${vehicle.id}`} key={idx}>
             <ul>

@@ -26,6 +26,24 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+enum Grade {
+REGULAR
+MID
+PREMIUM
+}
+
+model Fuel {
+  id Int @id @default(autoincrement())
+  grade Grade
+  gallons Decimal @db.Decimal(1,1)
+  date DateTime
+  mileage Int
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  vehicleId Int
+}
+
+
+
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
@@ -59,6 +77,7 @@ model Vehicle {
   model   String
   year    Int
   mileage Int
+  fuels Fuel[]
   owner   User   @relation(fields: [ownerId], references: [id])
   ownerId String
 

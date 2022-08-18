@@ -16,11 +16,10 @@ const VehicleForm = ({ action }: { action: string }) => {
   const { make, model, year, mileage } = formData;
 
   useEffect(() => {
-    console.log(action);
     if (user) {
       setFormData({ ...formData, ownerId: user.userId });
       if (action === 'edit') {
-        setFormData(test);
+        setFormData({ ...formData });
       }
     }
   }, [user]);
