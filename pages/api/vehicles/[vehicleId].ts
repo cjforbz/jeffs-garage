@@ -20,13 +20,16 @@ const handler: NextApiHandler = async (
       res.status(200).json(newVehicle);
       break;
     default:
-      const { vehicleId } = req.query;
+      const vehicleId: number = parseInt(req.query.vehicleId, 10);
+      console.log(vehicleId);
       const singleVehicle = await prisma.vehicle.findUnique({
         where: {
-          id: parseInt(vehicleId, 10),
+          id: vehicleId,
         },
+        rejectOnNotFound: true,
       });
-      res.status(200).json(singleVehicle);
+      console.log(singleVehicle);
+      res.status(200).send(singleVehicle);
   }
 };
 

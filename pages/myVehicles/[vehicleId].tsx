@@ -7,23 +7,40 @@ import axios from 'axios';
 const SingleVehicle: NextPage = () => {
   const { data: session, status } = useSession();
   const user = session?.user;
-  const [currentVehicle, setCurrentVehicle] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [currentVehicle, setCurrentVehicle] = useState();
   const router = useRouter();
-  const vehicleId = parseInt(router.query?.vehicleId);
+  const { vehicleId } = router.query;
 
   useEffect(() => {
-    console.log(router.query);
     const getVehicle = async () => {
-      const vehicle = await axios.get(`/api/vehicles/${vehicleId}`);
-      if (vehicle) {
-        setCurrentVehicle(vehicle);
+      const { data } = await axios.get(`/api/vehicles/${vehicleId}`);
+      if (data) {
+        setCurrentVehicle(data);
+        setLoading(false);
       }
     };
-    getVehicle();
+    if (vehicleId) {
+      getVehicle();
+    }
     console.log(currentVehicle);
-  });
+  }, [vehicleId, loading, user]);
 
-  return <div>Vehicle Id : {'vehicleId'}</div>;
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      {' '}
+      <ul>
+        <li>{currentVehicle.make}</li>
+        <li>{currentVehicle.model}</li>
+        <li>{currentVehicle.year}</li>
+        <li>{currentVehicle.mileage}</li>
+      </ul>
+    </div>
+  );
 };
 
 export default SingleVehicle;
