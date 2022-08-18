@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
+import Link from 'next/link';
 import axios from 'axios';
 
 type VehicleObj = {
@@ -31,18 +32,22 @@ const MyVehicles: NextPage = () => {
     getVehicles();
   }, [user]);
 
-  return loading ? (
-    <div>loading</div>
-  ) : (
+  if (loading) {
+    return <div>loading</div>;
+  }
+
+  return (
     <div>
       {vehicles.map((vehicle: VehicleObj, idx: number) => {
         return (
-          <ul key={idx}>
-            <li>{vehicle.make}</li>
-            <li>{vehicle.model}</li>
-            <li>{vehicle.year}</li>
-            <li>{vehicle.mileage}</li>
-          </ul>
+          <Link href={`/myVehicles/${vehicle.id}`} key={idx}>
+            <ul>
+              <li>{vehicle.make}</li>
+              <li>{vehicle.model}</li>
+              <li>{vehicle.year}</li>
+              <li>{vehicle.mileage}</li>
+            </ul>
+          </Link>
         );
       })}
     </div>
