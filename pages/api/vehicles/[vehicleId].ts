@@ -28,7 +28,6 @@ const handler: NextApiHandler = async (
         },
         rejectOnNotFound: true,
       });
-      console.log(singleVehicle);
       res.status(200).send(singleVehicle);
   }
 };

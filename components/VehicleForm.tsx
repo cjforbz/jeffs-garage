@@ -49,7 +49,7 @@ const VehicleForm = ({ action }: { action: string }) => {
       <form onSubmit={handleSubmit}>
         <input
           name="make"
-          placeholder="eg. Ford/Honda"
+          placeholder="eg. Ford, Honda"
           value={make}
           onChange={handleChange}
         />

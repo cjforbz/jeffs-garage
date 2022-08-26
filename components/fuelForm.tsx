@@ -9,22 +9,37 @@ const FuelForm = ({ vehicleId, oldMileage }) => {
   const [formData, setFormData] = useState({
     grade: '',
     gallons: '',
-    newMileage: '',
+    currentMileage: oldMileage,
     date: '',
     vehicleId: vehicleId,
   });
-  const { grade, gallons, newMileage, date } = formData;
+  const { grade, gallons, currentMileage, date } = formData;
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) => {
     const name = e.target.name,
       val = e.target.value;
 
     setFormData({ ...formData, [name]: val });
   };
 
+  const handleSubmit = async () => {
+    console.log('clicked');
+    const fuelData = {
+      ...formData,
+      date: Date.now(),
+    };
+    const newFueling = await axios.post(
+      '/api/vehicles/maintenance/fuel',
+      fuelData
+    );
+    console.log(newFueling);
+  };
+
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form id="fuelForm" onSubmit={handleSubmit}>
         <label htmlFor="grade">Fuel Grade</label>
         <select name="grade" value={grade} onChange={handleChange}>
           <option value="REGULAR">Regular</option>
@@ -47,19 +62,20 @@ const FuelForm = ({ vehicleId, oldMileage }) => {
 
         <label htmlFor="mileage">Vehicle Mileage</label>
         <input
-          name="mileage"
+          name="currentMileage"
           type="number"
-          value={newMileage}
+          value={currentMileage}
           maxLength={6}
           min={oldMileage}
           max="999999"
           step="1"
           onChange={handleChange}
-          placeHolder="Current Mileage"
+          placeholder="Current Mileage"
         />
-
         <button type="submit">Submit</button>
       </form>
     </div>
   );
 };
+
+export default FuelForm;
