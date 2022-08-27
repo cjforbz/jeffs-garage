@@ -1,5 +1,4 @@
 import prisma from '../../../../prisma/client';
-import type { Fuel } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse, NextApiHandler } from 'next';
 
 const handler: NextApiHandler = async (
@@ -8,21 +7,22 @@ const handler: NextApiHandler = async (
 ) => {
   const { grade, gallons, currentMileage, date, vehicleId } = req.body;
 
-  const newFueling: Fuel = await prisma.fuel.create({
+  const newFueling = await prisma.fuel.create({
     data: {
       grade: grade,
-      gallons: gallons,
+      gallons: parseFloat(gallons),
       date: date,
-      vehicleId: vehicleId,
+      vehicleId: parseInt(vehicleId),
+      mileage: parseInt(currentMileage),
     },
   });
 
   await prisma.vehicle.update({
     where: {
-      id: vehicleId,
+      id: parseInt(vehicleId),
     },
     data: {
-      mileage: currentMileage,
+      mileage: parseInt(currentMileage),
     },
   });
 

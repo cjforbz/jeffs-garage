@@ -35,7 +35,7 @@ PREMIUM
 model Fuel {
   id Int @id @default(autoincrement())
   grade Grade
-  gallons Decimal @db.Decimal(1,1)
+  gallons Decimal @db.Decimal(3,1)
   date DateTime
   mileage Int
   vehicle Vehicle @relation(fields: [vehicleId], references: [id])

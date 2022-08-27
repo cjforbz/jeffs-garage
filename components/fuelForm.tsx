@@ -2,7 +2,13 @@ import { ChangeEvent, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 
-const FuelForm = ({ vehicleId, oldMileage }) => {
+const FuelForm = ({
+  vehicleId,
+  oldMileage,
+}: {
+  vehicleId: number | string;
+  oldMileage: number | string;
+}) => {
   const { data: session, status } = useSession();
   const user = session?.user;
 
@@ -18,17 +24,19 @@ const FuelForm = ({ vehicleId, oldMileage }) => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
-    const name = e.target.name,
-      val = e.target.value;
+    const name = e.target.name;
+    const val = e.target.value;
+    e.target.type === 'number' ? parseFloat(val) : val;
 
     setFormData({ ...formData, [name]: val });
+    console.log(formData);
   };
 
   const handleSubmit = async () => {
     console.log('clicked');
     const fuelData = {
       ...formData,
-      date: Date.now(),
+      date: new Date(),
     };
     const newFueling = await axios.post(
       '/api/vehicles/maintenance/fuel',
@@ -41,7 +49,15 @@ const FuelForm = ({ vehicleId, oldMileage }) => {
     <div>
       <form id="fuelForm" onSubmit={handleSubmit}>
         <label htmlFor="grade">Fuel Grade</label>
-        <select name="grade" value={grade} onChange={handleChange}>
+        <select
+          name="grade"
+          value={grade}
+          onChange={handleChange}
+          required={true}
+        >
+          <option disabled value="">
+            --Choose an Option--
+          </option>
           <option value="REGULAR">Regular</option>
           <option value="MID">Mid</option>
           <option value="PREMIUM">Premium</option>
@@ -58,19 +74,21 @@ const FuelForm = ({ vehicleId, oldMileage }) => {
           max="99.9"
           step=".1"
           placeholder="Gallons"
+          required={true}
         />
 
-        <label htmlFor="mileage">Vehicle Mileage</label>
+        <label htmlFor="mileage">New Mileage</label>
         <input
           name="currentMileage"
           type="number"
           value={currentMileage}
           maxLength={6}
-          min={oldMileage}
+          min={oldMileage + 1}
           max="999999"
           step="1"
           onChange={handleChange}
           placeholder="Current Mileage"
+          required={true}
         />
         <button type="submit">Submit</button>
       </form>

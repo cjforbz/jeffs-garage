@@ -9,8 +9,8 @@ const VehicleForm = ({ action }: { action: string }) => {
   const [formData, setFormData] = useState({
     make: '',
     model: '',
-    year: '',
-    mileage: '',
+    year: 0,
+    mileage: 0,
     ownerId: '',
   });
   const { make, model, year, mileage } = formData;
@@ -52,6 +52,7 @@ const VehicleForm = ({ action }: { action: string }) => {
           placeholder="eg. Ford, Honda"
           value={make}
           onChange={handleChange}
+          required={true}
         />
 
         <input
@@ -59,6 +60,7 @@ const VehicleForm = ({ action }: { action: string }) => {
           placeholder="eg. F-150, Civic"
           value={model}
           onChange={handleChange}
+          required={true}
         />
 
         <input
@@ -70,6 +72,7 @@ const VehicleForm = ({ action }: { action: string }) => {
           placeholder="YYYY"
           value={year}
           onChange={handleChange}
+          required={true}
         />
 
         <input
@@ -80,6 +83,7 @@ const VehicleForm = ({ action }: { action: string }) => {
           placeholder="Mileage"
           value={mileage}
           onChange={handleChange}
+          required={true}
         />
 
         <button type="submit">Submit</button>
